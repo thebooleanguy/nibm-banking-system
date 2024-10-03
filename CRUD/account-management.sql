@@ -10,7 +10,7 @@ CREATE OR REPLACE PROCEDURE create_account (
     p_BranchID IN NUMBER
 ) AS 
 BEGIN
-    INSERT INTO Account (AccountID, AccountType, Balance, OpenDate, InterestRate, AccountStatus, customerID, BranchID)
+    INSERT INTO accounts (account_id, account_type, balance, open_date, interest_rate, account_status, customer_id, branch_id)
     VALUES (p_AccountID, p_AccountType, p_Balance, p_OpenDate, p_InterestRate, p_AccountStatus, p_customerID, p_BranchID);
     COMMIT;  -- Commit the transaction
 EXCEPTION
@@ -18,16 +18,17 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20000, 'Error creating account: ' || SQLERRM);
 END create_account;
 
+
 -- Read Account
 CREATE OR REPLACE FUNCTION read_account (
     p_AccountID IN NUMBER
-) RETURN Account%ROWTYPE AS
-    v_account Account%ROWTYPE;
+) RETURN accounts%ROWTYPE AS
+    v_account accounts%ROWTYPE;
 BEGIN
     SELECT *
     INTO v_account
-    FROM Account
-    WHERE AccountID = p_AccountID;
+    FROM accounts
+    WHERE account_id = p_AccountID;
 
     RETURN v_account;
 EXCEPTION
@@ -36,6 +37,7 @@ EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20002, 'Error reading account: ' || SQLERRM);
 END read_account;
+
 
 -- Update Account
 CREATE OR REPLACE PROCEDURE update_account (
@@ -49,15 +51,15 @@ CREATE OR REPLACE PROCEDURE update_account (
     p_BranchID IN NUMBER
 ) AS 
 BEGIN
-    UPDATE Account
-    SET AccountType = p_AccountType,
-        Balance = p_Balance,
-        OpenDate = p_OpenDate,
-        InterestRate = p_InterestRate,
-        AccountStatus = p_AccountStatus,
-        customerID = p_customerID,
-        BranchID = p_BranchID
-    WHERE AccountID = p_AccountID;
+    UPDATE accounts
+    SET account_type = p_AccountType,
+        balance = p_Balance,
+        open_date = p_OpenDate,
+        interest_rate = p_InterestRate,
+        account_status = p_AccountStatus,
+        customer_id = p_customerID,
+        branch_id = p_BranchID
+    WHERE account_id = p_AccountID;
 
     IF SQL%ROWCOUNT = 0 THEN
         RAISE_APPLICATION_ERROR(-20003, 'Account not found for update.');
@@ -69,20 +71,22 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20000, 'Error updating account: ' || SQLERRM);
 END update_account;
 
--- Delete Account
+
+-- Soft Delete Account
 CREATE OR REPLACE PROCEDURE delete_account (
     p_AccountID IN NUMBER
 ) AS 
 BEGIN
-    DELETE FROM Account
-    WHERE AccountID = p_AccountID;
+    UPDATE accounts
+    SET account_status = 'Closed', is_deleted = 'Y'
+    WHERE account_id = p_AccountID;
 
     IF SQL%ROWCOUNT = 0 THEN
-        RAISE_APPLICATION_ERROR(-20004, 'Account not found for deletion.');
+        RAISE_APPLICATION_ERROR(-20004, 'Account not found for closure.');
     END IF;
 
     COMMIT;  -- Commit the transaction
 EXCEPTION
     WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20000, 'Error deleting account: ' || SQLERRM);
+        RAISE_APPLICATION_ERROR(-20000, 'Error closing account: ' || SQLERRM);
 END delete_account;

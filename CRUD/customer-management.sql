@@ -8,28 +8,28 @@ CREATE OR REPLACE PROCEDURE create_customer (
     p_DOB IN DATE,
     p_CustomerStatus IN VARCHAR2,
     p_Gender IN VARCHAR2,
-    p_NationalID IN VARCHAR2
+    p_NationalID IN VARCHAR2,
+    p_BranchID IN NUMBER  -- New parameter for branch ID
 ) AS 
 BEGIN
-    INSERT INTO Customer (customerID, Name, Address, ContactNumber, Email, DOB, CustomerStatus, Gender, NationalID)
-    VALUES (p_customerID, p_Name, p_Address, p_ContactNumber, p_Email, p_DOB, p_CustomerStatus, p_Gender, p_NationalID);
+    INSERT INTO customers (customer_id, name, address, contact_number, email, dob, customer_status, gender, national_id, branch_id)
+    VALUES (p_customerID, p_Name, p_Address, p_ContactNumber, p_Email, p_DOB, p_CustomerStatus, p_Gender, p_NationalID, p_BranchID);
     COMMIT;  -- Commit the transaction
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20000, 'Error creating customer: ' || SQLERRM);
 END create_customer;
 
-
 -- Read Customer
 CREATE OR REPLACE FUNCTION read_customer (
     p_customerID IN NUMBER
-) RETURN Customer%ROWTYPE AS
-    v_customer Customer%ROWTYPE;
+) RETURN customers%ROWTYPE AS
+    v_customer customers%ROWTYPE;
 BEGIN
     SELECT *
     INTO v_customer
-    FROM Customer
-    WHERE customerID = p_customerID;
+    FROM customers
+    WHERE customer_id = p_customerID;
     
     RETURN v_customer;
 EXCEPTION
@@ -38,8 +38,6 @@ EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20002, 'Error reading customer: ' || SQLERRM);
 END read_customer;
-
-
 
 -- Update Customer
 CREATE OR REPLACE PROCEDURE update_customer (
@@ -51,19 +49,21 @@ CREATE OR REPLACE PROCEDURE update_customer (
     p_DOB IN DATE,
     p_CustomerStatus IN VARCHAR2,
     p_Gender IN VARCHAR2,
-    p_NationalID IN VARCHAR2
+    p_NationalID IN VARCHAR2,
+    p_BranchID IN NUMBER  -- New parameter for branch ID
 ) AS 
 BEGIN
-    UPDATE Customer
-    SET Name = p_Name,
-        Address = p_Address,
-        ContactNumber = p_ContactNumber,
-        Email = p_Email,
-        DOB = p_DOB,
-        CustomerStatus = p_CustomerStatus,
-        Gender = p_Gender,
-        NationalID = p_NationalID
-    WHERE customerID = p_customerID;
+    UPDATE customers
+    SET name = p_Name,
+        address = p_Address,
+        contact_number = p_ContactNumber,
+        email = p_Email,
+        dob = p_DOB,
+        customer_status = p_CustomerStatus,
+        gender = p_Gender,
+        national_id = p_NationalID,
+        branch_id = p_BranchID  -- Update branch ID
+    WHERE customer_id = p_customerID;
     
     IF SQL%ROWCOUNT = 0 THEN
         RAISE_APPLICATION_ERROR(-20003, 'Customer not found for update.');
@@ -75,14 +75,13 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20000, 'Error updating customer: ' || SQLERRM);
 END update_customer;
 
-
 -- Delete Customer
 CREATE OR REPLACE PROCEDURE delete_customer (
     p_customerID IN NUMBER
 ) AS 
 BEGIN
-    DELETE FROM Customer
-    WHERE customerID = p_customerID;
+    DELETE FROM customers
+    WHERE customer_id = p_customerID;
 
     IF SQL%ROWCOUNT = 0 THEN
         RAISE_APPLICATION_ERROR(-20004, 'Customer not found for deletion.');
