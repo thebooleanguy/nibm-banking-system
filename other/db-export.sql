@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  File created - Friday-October-04-2024   
+--  File created - Wednesday-October-09-2024   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Sequence MVIEW$_ADVSEQ_GENERIC
@@ -1597,32 +1597,24 @@ SET DEFINE OFF;
 Insert into SYSTEM.TRANSACTIONS (TRANSACTION_ID,TRANSACTION_TYPE,AMOUNT,TRANSACTION_DATE,TRANSACTION_MODE,ACCOUNT_ID) values (1,'Credit',500,to_date('25-SEP-24','DD-MON-RR'),'Online',1);
 Insert into SYSTEM.TRANSACTIONS (TRANSACTION_ID,TRANSACTION_TYPE,AMOUNT,TRANSACTION_DATE,TRANSACTION_MODE,ACCOUNT_ID) values (2,'Debit',250,to_date('01-OCT-24','DD-MON-RR'),'Cash',2);
 --------------------------------------------------------
---  DDL for Index MVIEW$_ADV_PARAMETERS_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_PARAMETERS_PK" ON "SYSTEM"."MVIEW$_ADV_PARAMETERS" ("PARAMETER_NAME") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
-  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index OL$HNT_NUM
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."OL$HNT_NUM" ON "SYSTEM"."OL$HINTS" ("OL_NAME", "HINT#") ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_BASETABLE_IDX_01
---------------------------------------------------------
-
-  CREATE INDEX "SYSTEM"."MVIEW$_ADV_BASETABLE_IDX_01" ON "SYSTEM"."MVIEW$_ADV_BASETABLE" ("QUERYID#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
 --  DDL for Index MVIEW$_ADV_WORKLOAD_PK
 --------------------------------------------------------
 
   CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_WORKLOAD_PK" ON "SYSTEM"."MVIEW$_ADV_WORKLOAD" ("QUERYID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_FILTER_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_FILTER_PK" ON "SYSTEM"."MVIEW$_ADV_FILTER" ("FILTERID#", "SUBFILTERNUM#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_LOG_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_LOG_PK" ON "SYSTEM"."MVIEW$_ADV_LOG" ("RUNID#") 
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
@@ -1633,10 +1625,76 @@ Insert into SYSTEM.TRANSACTIONS (TRANSACTION_ID,TRANSACTION_TYPE,AMOUNT,TRANSACT
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
---  DDL for Index MVIEW$_ADV_PRETTY_IDX_01
+--  DDL for Index MVIEW$_ADV_ROLLUP_PK
 --------------------------------------------------------
 
-  CREATE INDEX "SYSTEM"."MVIEW$_ADV_PRETTY_IDX_01" ON "SYSTEM"."MVIEW$_ADV_PRETTY" ("QUERYID#") 
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_ROLLUP_PK" ON "SYSTEM"."MVIEW$_ADV_ROLLUP" ("RUNID#", "CLEVELID#", "PLEVELID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_AJG_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_AJG_PK" ON "SYSTEM"."MVIEW$_ADV_AJG" ("AJGID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_FJG_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_FJG_PK" ON "SYSTEM"."MVIEW$_ADV_FJG" ("FJGID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_GC_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_GC_PK" ON "SYSTEM"."MVIEW$_ADV_GC" ("GCID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_CLIQUE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_CLIQUE_PK" ON "SYSTEM"."MVIEW$_ADV_CLIQUE" ("CLIQUEID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_ELIGIBLE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_ELIGIBLE_PK" ON "SYSTEM"."MVIEW$_ADV_ELIGIBLE" ("SUMOBJN#", "RUNID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_OUTPUT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_OUTPUT_PK" ON "SYSTEM"."MVIEW$_ADV_OUTPUT" ("RUNID#", "RANK#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_PARAMETERS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_PARAMETERS_PK" ON "SYSTEM"."MVIEW$_ADV_PARAMETERS" ("PARAMETER_NAME") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_INFO_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_INFO_PK" ON "SYSTEM"."MVIEW$_ADV_INFO" ("RUNID#", "SEQ#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_JOURNAL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_JOURNAL_PK" ON "SYSTEM"."MVIEW$_ADV_JOURNAL" ("RUNID#", "SEQ#") 
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
@@ -1650,79 +1708,6 @@ Insert into SYSTEM.TRANSACTIONS (TRANSACTION_ID,TRANSACTION_TYPE,AMOUNT,TRANSACT
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
---  DDL for Index MVIEW$_ADV_TEMP_IDX_01
---------------------------------------------------------
-
-  CREATE INDEX "SYSTEM"."MVIEW$_ADV_TEMP_IDX_01" ON "SYSTEM"."MVIEW$_ADV_TEMP" ("ID#", "SEQ#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_ROLLUP_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_ROLLUP_PK" ON "SYSTEM"."MVIEW$_ADV_ROLLUP" ("RUNID#", "CLEVELID#", "PLEVELID#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_SQLDEPEND_IDX_01
---------------------------------------------------------
-
-  CREATE INDEX "SYSTEM"."MVIEW$_ADV_SQLDEPEND_IDX_01" ON "SYSTEM"."MVIEW$_ADV_SQLDEPEND" ("COLLECTIONID#", "FROM_ADDRESS", "FROM_HASH", "INST_ID") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_FILTER_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_FILTER_PK" ON "SYSTEM"."MVIEW$_ADV_FILTER" ("FILTERID#", "SUBFILTERNUM#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_CLIQUE_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_CLIQUE_PK" ON "SYSTEM"."MVIEW$_ADV_CLIQUE" ("CLIQUEID#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index OL$NAME
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."OL$NAME" ON "SYSTEM"."OL$" ("OL_NAME") ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_WORKLOAD_IDX_01
---------------------------------------------------------
-
-  CREATE INDEX "SYSTEM"."MVIEW$_ADV_WORKLOAD_IDX_01" ON "SYSTEM"."MVIEW$_ADV_WORKLOAD" ("COLLECTIONID#", "QUERYID#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_AJG_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_AJG_PK" ON "SYSTEM"."MVIEW$_ADV_AJG" ("AJGID#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_GC_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_GC_PK" ON "SYSTEM"."MVIEW$_ADV_GC" ("GCID#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index OL$SIGNATURE
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."OL$SIGNATURE" ON "SYSTEM"."OL$" ("SIGNATURE", "CATEGORY") ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_OUTPUT_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_OUTPUT_PK" ON "SYSTEM"."MVIEW$_ADV_OUTPUT" ("RUNID#", "RANK#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
 --  DDL for Index REDO_DB_IDX
 --------------------------------------------------------
 
@@ -1733,6 +1718,20 @@ Insert into SYSTEM.TRANSACTIONS (TRANSACTION_ID,TRANSACTION_TYPE,AMOUNT,TRANSACT
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "SYSAUX" ;
 --------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_TEMP_IDX_01
+--------------------------------------------------------
+
+  CREATE INDEX "SYSTEM"."MVIEW$_ADV_TEMP_IDX_01" ON "SYSTEM"."MVIEW$_ADV_TEMP" ("ID#", "SEQ#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_PRETTY_IDX_01
+--------------------------------------------------------
+
+  CREATE INDEX "SYSTEM"."MVIEW$_ADV_PRETTY_IDX_01" ON "SYSTEM"."MVIEW$_ADV_PRETTY" ("QUERYID#") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
 --  DDL for Index REDO_LOG_IDX
 --------------------------------------------------------
 
@@ -1740,38 +1739,39 @@ Insert into SYSTEM.TRANSACTIONS (TRANSACTION_ID,TRANSACTION_TYPE,AMOUNT,TRANSACT
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSAUX" ;
 --------------------------------------------------------
---  DDL for Index MVIEW$_ADV_FJG_PK
+--  DDL for Index MVIEW$_ADV_SQLDEPEND_IDX_01
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_FJG_PK" ON "SYSTEM"."MVIEW$_ADV_FJG" ("FJGID#") 
+  CREATE INDEX "SYSTEM"."MVIEW$_ADV_SQLDEPEND_IDX_01" ON "SYSTEM"."MVIEW$_ADV_SQLDEPEND" ("COLLECTIONID#", "FROM_ADDRESS", "FROM_HASH", "INST_ID") 
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
---  DDL for Index MVIEW$_ADV_LOG_PK
+--  DDL for Index OL$NAME
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_LOG_PK" ON "SYSTEM"."MVIEW$_ADV_LOG" ("RUNID#") 
+  CREATE UNIQUE INDEX "SYSTEM"."OL$NAME" ON "SYSTEM"."OL$" ("OL_NAME") ;
+--------------------------------------------------------
+--  DDL for Index OL$HNT_NUM
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."OL$HNT_NUM" ON "SYSTEM"."OL$HINTS" ("OL_NAME", "HINT#") ;
+--------------------------------------------------------
+--  DDL for Index OL$SIGNATURE
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."OL$SIGNATURE" ON "SYSTEM"."OL$" ("SIGNATURE", "CATEGORY") ;
+--------------------------------------------------------
+--  DDL for Index MVIEW$_ADV_WORKLOAD_IDX_01
+--------------------------------------------------------
+
+  CREATE INDEX "SYSTEM"."MVIEW$_ADV_WORKLOAD_IDX_01" ON "SYSTEM"."MVIEW$_ADV_WORKLOAD" ("COLLECTIONID#", "QUERYID#") 
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
---  DDL for Index MVIEW$_ADV_JOURNAL_PK
+--  DDL for Index MVIEW$_ADV_BASETABLE_IDX_01
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_JOURNAL_PK" ON "SYSTEM"."MVIEW$_ADV_JOURNAL" ("RUNID#", "SEQ#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_INFO_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_INFO_PK" ON "SYSTEM"."MVIEW$_ADV_INFO" ("RUNID#", "SEQ#") 
-  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  TABLESPACE "SYSTEM" ;
---------------------------------------------------------
---  DDL for Index MVIEW$_ADV_ELIGIBLE_PK
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYSTEM"."MVIEW$_ADV_ELIGIBLE_PK" ON "SYSTEM"."MVIEW$_ADV_ELIGIBLE" ("SUMOBJN#", "RUNID#") 
+  CREATE INDEX "SYSTEM"."MVIEW$_ADV_BASETABLE_IDX_01" ON "SYSTEM"."MVIEW$_ADV_BASETABLE" ("QUERYID#") 
   PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   TABLESPACE "SYSTEM" ;
 --------------------------------------------------------
@@ -2467,6 +2467,69 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Month: ' || rec.payment_month || ', Total Payments: ' || rec.total_payments);
     END LOOP;
 END loan_payments_reports_by_month;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure MONTHLY_ACCOUNT_STATEMENT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SYSTEM"."MONTHLY_ACCOUNT_STATEMENT" (
+    p_account_id IN NUMBER,
+    p_start_date IN DATE,
+    p_end_date IN DATE
+) AS
+BEGIN
+    FOR rec IN (
+        SELECT t.transaction_id, t.transaction_type, t.amount, t.transaction_date, t.transaction_mode, a.balance
+        FROM transactions t
+        JOIN accounts a ON t.account_id = a.account_id
+        WHERE t.account_id = p_account_id
+        AND t.transaction_date BETWEEN p_start_date AND p_end_date
+        ORDER BY t.transaction_date
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE('Transaction ID: ' || rec.transaction_id || 
+                             ', Type: ' || rec.transaction_type || 
+                             ', Amount: ' || rec.amount || 
+                             ', Date: ' || rec.transaction_date || 
+                             ', Mode: ' || rec.transaction_mode || 
+                             ', Balance: ' || rec.balance);
+    END LOOP;
+END monthly_account_statement;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure MONTHLY_ACCOUNT_STATEMENT_REPORT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SYSTEM"."MONTHLY_ACCOUNT_STATEMENT_REPORT" (
+    p_account_id IN NUMBER,
+    p_statement_month IN VARCHAR2
+) AS
+BEGIN
+    FOR rec IN (
+        SELECT a.account_id,
+               a.account_type,
+               a.account_status,
+               TO_CHAR(t.transaction_date, 'YYYY-MM') AS statement_month,
+               t.transaction_id,
+               t.transaction_type,
+               t.transaction_amount,
+               t.transaction_date
+        FROM accounts a
+        JOIN transactions t ON a.account_id = t.account_id
+        WHERE a.account_id = p_account_id
+          AND TO_CHAR(t.transaction_date, 'YYYY-MM') = p_statement_month
+        ORDER BY t.transaction_date
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE('Account ID: ' || rec.account_id || 
+                             ', Transaction ID: ' || rec.transaction_id ||
+                             ', Type: ' || rec.transaction_type ||
+                             ', Amount: ' || rec.transaction_amount ||
+                             ', Date: ' || rec.transaction_date);
+    END LOOP;
+END monthly_account_statement_report;
 
 /
 --------------------------------------------------------
@@ -3171,7 +3234,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."LOANS" ADD CHECK (remaining_balance >= 0) ENABLE;
   ALTER TABLE "SYSTEM"."LOANS" ADD CHECK (is_deleted IN ('Y', 'N')) ENABLE;
   ALTER TABLE "SYSTEM"."LOANS" ADD PRIMARY KEY ("LOAN_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3207,7 +3270,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."BRANCHES" MODIFY ("CONTACT_NUMBER" NOT NULL ENABLE);
   ALTER TABLE "SYSTEM"."BRANCHES" ADD CHECK (is_deleted IN ('Y', 'N')) ENABLE;
   ALTER TABLE "SYSTEM"."BRANCHES" ADD PRIMARY KEY ("BRANCH_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3237,7 +3300,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."CUSTOMERS" ADD CHECK (customer_status IN ('Active', 'Inactive')) ENABLE;
   ALTER TABLE "SYSTEM"."CUSTOMERS" ADD CHECK (gender IN ('Male', 'Female', 'Other')) ENABLE;
   ALTER TABLE "SYSTEM"."CUSTOMERS" ADD PRIMARY KEY ("CUSTOMER_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3254,7 +3317,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."EMPLOYEES" MODIFY ("DEPARTMENT" NOT NULL ENABLE);
   ALTER TABLE "SYSTEM"."EMPLOYEES" ADD CHECK (salary >= 0) ENABLE;
   ALTER TABLE "SYSTEM"."EMPLOYEES" ADD PRIMARY KEY ("EMPLOYEE_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3270,7 +3333,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."CARDS" ADD CHECK (status IN ('Active', 'Blocked', 'Expired')) ENABLE;
   ALTER TABLE "SYSTEM"."CARDS" ADD CHECK (is_deleted IN ('Y', 'N')) ENABLE;
   ALTER TABLE "SYSTEM"."CARDS" ADD PRIMARY KEY ("CARD_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3283,7 +3346,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."TRANSACTIONS" ADD CHECK (amount > 0) ENABLE;
   ALTER TABLE "SYSTEM"."TRANSACTIONS" ADD CHECK (transaction_mode IN ('Online', 'Cash', 'Card')) ENABLE;
   ALTER TABLE "SYSTEM"."TRANSACTIONS" ADD PRIMARY KEY ("TRANSACTION_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3320,7 +3383,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."ACCOUNTS" ADD CHECK (interest_rate >= 0) ENABLE;
   ALTER TABLE "SYSTEM"."ACCOUNTS" ADD CHECK (account_status IN ('Active', 'Closed', 'Frozen')) ENABLE;
   ALTER TABLE "SYSTEM"."ACCOUNTS" ADD PRIMARY KEY ("ACCOUNT_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3344,7 +3407,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."LOAN_GUARANTORS" MODIFY ("GUARANTOR_STATUS" NOT NULL ENABLE);
   ALTER TABLE "SYSTEM"."LOAN_GUARANTORS" ADD CHECK (guarantor_status IN ('Active', 'Inactive')) ENABLE;
   ALTER TABLE "SYSTEM"."LOAN_GUARANTORS" ADD PRIMARY KEY ("GUARANTOR_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
@@ -3493,7 +3556,7 @@ END read_transaction;
   ALTER TABLE "SYSTEM"."LOAN_PAYMENTS" ADD CHECK (payment_amount > 0) ENABLE;
   ALTER TABLE "SYSTEM"."LOAN_PAYMENTS" ADD CHECK (payment_mode IN ('Online', 'Cash', 'Card')) ENABLE;
   ALTER TABLE "SYSTEM"."LOAN_PAYMENTS" ADD PRIMARY KEY ("PAYMENT_ID")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)

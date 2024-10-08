@@ -1,3 +1,31 @@
+-- Monthly Account Statement Report
+CREATE OR REPLACE PROCEDURE monthly_account_statement (
+    p_account_id IN NUMBER,
+    p_start_date IN DATE,
+    p_end_date IN DATE
+) AS
+BEGIN
+    FOR rec IN (
+        SELECT t.transaction_id, t.transaction_type, t.amount, t.transaction_date, t.transaction_mode, a.balance
+        FROM transactions t
+        JOIN accounts a ON t.account_id = a.account_id
+        WHERE t.account_id = p_account_id
+        AND t.transaction_date BETWEEN p_start_date AND p_end_date
+        ORDER BY t.transaction_date
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE('Transaction ID: ' || rec.transaction_id || 
+                             ', Type: ' || rec.transaction_type || 
+                             ', Amount: ' || rec.amount || 
+                             ', Date: ' || rec.transaction_date || 
+                             ', Mode: ' || rec.transaction_mode || 
+                             ', Balance: ' || rec.balance);
+    END LOOP;
+END monthly_account_statement;
+/
+
+
+
+
 -- Customer Loan Summary Report
 CREATE OR REPLACE PROCEDURE customer_loan_summary_reports AS
     CURSOR customer_loan_cursor IS
